@@ -1,0 +1,1 @@
+# mybb-wordpress-theme
