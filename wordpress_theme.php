@@ -105,6 +105,18 @@ function wordpress_theme_global_start($page) {
 	// MyBB html document
 	$mybb_dom = new DOMDocument();
         $mybb_dom->loadHTML($page_mod);
+	$mybb_dom_xpath = new DOMXPath($mybb_dom);
+
+	// deal with http-equiv="refresh" (move from MyBB page to Wordpress page)
+        $mybb_refresh_nodes = $mybb_dom_xpath->query('/html/head/meta[@http-equiv="refresh"]');
+        foreach($mybb_refresh_nodes as $mybb_refresh_node) {
+                $mybb_refresh_node->parentNode->removeChild($mybb_refresh_node);
+
+                $import = $wp_dom->importNode($mybb_refresh_node, TRUE);
+                $wp_head_node = $wp_dom->getElementsByTagName('head')->item(0);
+                $wp_head_node->appendChild($import);
+        }
+
 
 	// save MyBB generated page to local cache file
 	$mybb_dom->saveHTMLFile('cache.html');
