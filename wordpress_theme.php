@@ -100,7 +100,7 @@ function wordpress_theme_global_start($page) {
         $wp_dom->loadHTML($wp_page_mod);
 
 	// set base to "_parent" in MyBB generated page
-	$page_mod = str_replace('<head>','<head>'."\r\n".'<base target="_parent" />'."\r\n", $page);
+	$page_mod = str_replace('<head>','<head>'."\r\n".'<base href="'.$bburl.'/" target="_parent" />'."\r\n", $page);
 	// deal with quick-login url (very nasty hack below)
 	$page_mod = str_replace('$("#quick_login input[name=\'url\']").val($(location).attr(\'href\'))', '$("#quick_login input[name=\'url\']").val('.$bburl.')', $page_mod);
 
@@ -120,9 +120,9 @@ function wordpress_theme_global_start($page) {
         }
 
 	// save MyBB generated page to local cache file
-	$mybb_dom->saveHTMLFile('cache.html');
+	$mybb_dom->saveHTMLFile('cache/cache.html');
 
-	$iframe = '<iframe id="mybb_iframe" onload="iframeLoaded()" width="100%" height="1000px" src="cache.html" scrolling="no" seamless="seamless">'."\r\n";
+	$iframe = '<iframe id="mybb_iframe" onload="iframeLoaded()" width="100%" height="1000px" src="cache/cache.html" scrolling="no" seamless="seamless">'."\r\n";
 
 	// inject MyBB frame into wordpress page
 	$output = str_replace('[MYBB-GOES-HERE]', $iframe, $wp_dom->saveHTML());
