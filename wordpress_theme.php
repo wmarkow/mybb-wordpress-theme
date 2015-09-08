@@ -85,16 +85,19 @@ function wordpress_theme_global_start($page) {
         }
 
 	$url=$mybb->settings['wordpress_theme_url'];
-	$buffer = file_get_contents($url);
+	$wp_page = file_get_contents($url);
 
-	if($buffer == null) {
+	if($wp_page == null) {
 		return $page;
 	}
 
+	// add java script to Wordpress page
+	$bburl=$GLOBALS['settings']['bburl'];
+	$wp_page_mod = str_replace('<head>','<head>'."\r\n".'<script type="text/javascript" src="'.$bburl.'/inc/plugins/wordpress_theme/wordpress_theme.js" />'."\r\n", $wp_page);
 
 	// Wordpress html document
         $wp_dom = new DOMDocument();
-        $wp_dom->loadHTML($buffer);
+        $wp_dom->loadHTML($wp_page_mod);
 
 	// set base to "_parent" in MyBB generated page
 	$page_mod = str_replace('<head>','<head>'."\r\n".'<base target="_parent" />'."\r\n", $page);
@@ -106,7 +109,7 @@ function wordpress_theme_global_start($page) {
 	// save MyBB generated page to local cache file
 	$mybb_dom->saveHTMLFile('cache.html');
 
-	$iframe = '<iframe id="mybb_iframe" width="100%" height="1000px" src="cache.html" scrolling="no" seamless="seamless">'."\r\n";
+	$iframe = '<iframe id="mybb_iframe" onload="iframeLoaded()" width="100%" height="1000px" src="cache.html" scrolling="no" seamless="seamless">'."\r\n";
 
 	// inject MyBB frame into wordpress page
 	$output = str_replace('[MYBB-GOES-HERE]', $iframe, $wp_dom->saveHTML());
