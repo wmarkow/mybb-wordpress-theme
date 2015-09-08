@@ -101,6 +101,8 @@ function wordpress_theme_global_start($page) {
 
 	// set base to "_parent" in MyBB generated page
 	$page_mod = str_replace('<head>','<head>'."\r\n".'<base target="_parent" />'."\r\n", $page);
+	// deal with quick-login url (very nasty hack below)
+	$page_mod = str_replace('$("#quick_login input[name=\'url\']").val($(location).attr(\'href\'))', '$("#quick_login input[name=\'url\']").val('.$bburl.')', $page_mod);
 
 	// MyBB html document
 	$mybb_dom = new DOMDocument();
@@ -116,7 +118,6 @@ function wordpress_theme_global_start($page) {
                 $wp_head_node = $wp_dom->getElementsByTagName('head')->item(0);
                 $wp_head_node->appendChild($import);
         }
-
 
 	// save MyBB generated page to local cache file
 	$mybb_dom->saveHTMLFile('cache.html');
