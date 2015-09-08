@@ -96,13 +96,15 @@ function wordpress_theme_global_start($page) {
         $wp_dom = new DOMDocument();
         $wp_dom->loadHTML($buffer);
 
-        // MyBB html document
-        $mybb_dom = new DOMDocument();
-        $mybb_dom->loadHTML($page);
+	// set base to "_parent" in MyBB generated page
+	$page_mod = str_replace('<head>','<head>'."\r\n".'<base target="_parent" />'."\r\n", $page);
+
+	// MyBB html document
+	$mybb_dom = new DOMDocument();
+        $mybb_dom->loadHTML($page_mod);
 
 	// save MyBB generated page to local cache file
 	$mybb_dom->saveHTMLFile('cache.html');
-
 
 	$iframe = '<iframe id="mybb_iframe" width="100%" height="1000px" src="cache.html" scrolling="no" seamless="seamless">'."\r\n";
 
