@@ -17,7 +17,8 @@ function wordpress_theme_info()
         "author"        => "Witold Markowski",
         "authorsite"    => "https://github.com/wmarkow/mybb-wordpress-theme",
         "version"        => "1.0",
-        "guid"             => "6a104bd0265d5aa526ceca2d75adb2f98e370cb2",
+        "guid"             => "",
+	"codename"      => "wordpress_theme",
         "compatibility" => "18*"
         );
 }
@@ -73,7 +74,8 @@ function wordpress_theme_deactivate()
 }
 
 
-function wordpress_theme_global_start($page) {
+function wordpress_theme_global_start($page)
+{
 	global $mybb;
 
 	if ($mybb->settings['wordpress_theme_enable'] != 1) {
