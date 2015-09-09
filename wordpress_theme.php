@@ -122,9 +122,11 @@ function wordpress_theme_global_start($page)
         }
 
 	// save MyBB generated page to local cache file
-	$mybb_dom->saveHTMLFile('cache/cache.html');
+	$cache_file_name = bin2hex(openssl_random_pseudo_bytes(24));
+	$cache_file_path = 'cache/wordpress_theme_'.$cache_file_name.'.html';
+	$mybb_dom->saveHTMLFile($cache_file_path);
 
-	$iframe = '<iframe id="mybb_iframe" onload="iframeLoaded()" width="100%" height="1000px" src="cache/cache.html" scrolling="no" seamless="seamless">'."\r\n";
+	$iframe = '<iframe id="mybb_iframe" onload="iframeLoaded()" width="100%" height="1000px" src="'.$cache_file_path.'" scrolling="no" seamless="seamless">'."\r\n";
 
 	// inject MyBB frame into wordpress page
 	$output = str_replace('[MYBB-GOES-HERE]', $iframe, $wp_dom->saveHTML());
