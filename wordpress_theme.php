@@ -127,6 +127,7 @@ function wordpress_theme_global_start($page)
 	$mybb_dom->saveHTMLFile($cache_file_path);
 
 	$iframe = '<iframe id="mybb_iframe" onload="iframeLoaded()" width="100%" height="1000px" src="'.$bburl.'/inc/plugins/wordpress_theme/get_content.php?token='.$token.'" scrolling="no" seamless="seamless"></iframe>'."\r\n";
+	$iframe .= '<debugstuff></debugstuff>'."\r\n";
 
 	// inject MyBB frame into wordpress page
 	$output = str_replace('[MYBB-GOES-HERE]', $iframe, $wp_dom->saveHTML());
