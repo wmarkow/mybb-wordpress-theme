@@ -76,6 +76,7 @@ function wordpress_theme_deactivate()
 
 function wordpress_theme_global_start($page)
 {
+	$start_time = microtime(true);
 	global $mybb;
 
 	if ($mybb->settings['wordpress_theme_enable'] != 1) {
@@ -128,6 +129,13 @@ function wordpress_theme_global_start($page)
 
 	$iframe = '<iframe id="mybb_iframe" onload="iframeLoaded()" width="100%" height="1000px" src="'.$bburl.'/inc/plugins/wordpress_theme/get_content.php?token='.$token.'" scrolling="no" seamless="seamless"></iframe>'."\r\n";
 	$iframe .= '<debugstuff></debugstuff>'."\r\n";
+
+	// add plugin's execution time if needed
+	if($mybb->usergroup['cancp'] == 1 || $mybb->dev_mode == 1)
+	{
+		$execution_time = (int)(1000 * (microtime(true) - $start_time));
+		$iframe .= '<span>MyBB "Wordpress Theme" plugin execution time: '.$execution_time.'ms</span>'."\n";
+	}
 
 	// inject MyBB frame into wordpress page
 	$output = str_replace('[MYBB-GOES-HERE]', $iframe, $wp_dom->saveHTML());
