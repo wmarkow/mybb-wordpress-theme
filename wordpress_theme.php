@@ -126,7 +126,7 @@ function wordpress_theme_global_start($page)
 	$cache_file_path = 'cache/wordpress_theme_'.$token.'.html';
 	$mybb_dom->saveHTMLFile($cache_file_path);
 
-	$iframe = '<iframe id="mybb_iframe" onload="iframeLoaded()" width="100%" height="1000px" src="inc/plugins/wordpress_theme/get_content.php?token='.$token.'" scrolling="no" seamless="seamless">'."\r\n";
+	$iframe = '<iframe id="mybb_iframe" onload="iframeLoaded()" width="100%" height="1000px" src="'.$bburl.'/inc/plugins/wordpress_theme/get_content.php?token='.$token.'" scrolling="no" seamless="seamless"></iframe>'."\r\n";
 
 	// inject MyBB frame into wordpress page
 	$output = str_replace('[MYBB-GOES-HERE]', $iframe, $wp_dom->saveHTML());
