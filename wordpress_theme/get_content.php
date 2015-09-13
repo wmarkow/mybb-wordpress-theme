@@ -1,4 +1,5 @@
 <?php
+	session_start();
 
 	if (!isset($_GET['token']))
 	{
@@ -14,15 +15,19 @@
 		exit;
 	}
 
-	$html_path = '../../../cache/wordpress_theme_'.$token.'.html';
 
-	if (!file_exists ($html_path))
-	{
-		echo 'Plik nie istnieje. Odswiez okno w przegladarce.';
+	if(!isset($_SESSION['wordpress_theme']['token'])) {
+		echo 'Token not found in session. Refresh your web browser.';
 		exit;
 	}
 
-	echo file_get_contents($html_path);
+	if(strcmp($token, $_SESSION['wordpress_theme']['token']) != 0)
+	{
+		echo 'Token mismatch. Refresh your web browser.';
+	}
 
-	unlink($html_path);
+	echo $_SESSION['wordpress_theme']['content'];
+
+	unset($_SESSION['wordpress_theme']['token']);
+	unset($_SESSION['wordpress_theme']['content']);
 ?>

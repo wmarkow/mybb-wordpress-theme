@@ -77,6 +77,7 @@ function wordpress_theme_deactivate()
 function wordpress_theme_global_start($page)
 {
 	$start_time = microtime(true);
+	session_start();
 	global $mybb;
 
 	if ($mybb->settings['wordpress_theme_enable'] != 1) {
@@ -124,8 +125,8 @@ function wordpress_theme_global_start($page)
 
 	// save MyBB generated page to local cache file
 	$token = bin2hex(openssl_random_pseudo_bytes(24));
-	$cache_file_path = 'cache/wordpress_theme_'.$token.'.html';
-	$mybb_dom->saveHTMLFile($cache_file_path);
+	$_SESSION['wordpress_theme']['token'] = $token;
+	$_SESSION['wordpress_theme']['content'] = $mybb_dom->saveHTML();
 
 	$iframe = '<iframe id="mybb_iframe" onload="iframeLoaded()" width="100%" height="1000px" src="'.$bburl.'/inc/plugins/wordpress_theme/get_content.php?token='.$token.'" scrolling="no" seamless="seamless"></iframe>'."\r\n";
 	$iframe .= '<debugstuff>'."\r\n";
