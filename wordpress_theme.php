@@ -19,7 +19,7 @@ function wordpress_theme_info()
         "version"        => "1.0",
         "guid"             => "",
 	"codename"      => "wordpress_theme",
-        "compatibility" => "18*"
+        "compatibility" => "1805"
         );
 }
 
