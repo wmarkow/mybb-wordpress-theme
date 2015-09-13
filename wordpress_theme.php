@@ -88,8 +88,13 @@ function wordpress_theme_global_start($page)
                 return $page;
         }
 
-	$url=$mybb->settings['wordpress_theme_url'];
-	$wp_page = file_get_contents($url);
+	if(!isset($_SESSION['wordpress_theme']['wordpress_theme']))
+	{
+		$url=$mybb->settings['wordpress_theme_url'];
+		$_SESSION['wordpress_theme']['wordpress_theme'] = file_get_contents($url);
+	}
+
+	$wp_page = $_SESSION['wordpress_theme']['wordpress_theme'];
 
 	if($wp_page == null) {
 		return $page;
