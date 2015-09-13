@@ -77,8 +77,19 @@ function wordpress_theme_deactivate()
 function wordpress_theme_global_start($page)
 {
 	$start_time = microtime(true);
-	session_start();
 	global $mybb;
+
+	if($mybb->usergroup['cancp'] == 1 || ($mybb->user['ismoderator'] && $mybb->usergroup['canmodcp'] == 1 && $mybb->usergroup['canmanagereportedcontent'] == 1))
+	{
+		// This user is a moderator, super moderator or administrator
+		// do nothing
+	}
+	else
+	{
+		return $page;
+	}
+
+	session_start();
 
 	if ($mybb->settings['wordpress_theme_enable'] != 1) {
 		return $page;
