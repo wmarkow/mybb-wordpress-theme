@@ -130,8 +130,9 @@ function wordpress_theme_global_start($page)
 
 	// save MyBB generated page to local cache file
 	$token = bin2hex(openssl_random_pseudo_bytes(24));
+	$content = $mybb_dom->saveHTML();
 	$_SESSION['wordpress_theme']['token'] = $token;
-	$_SESSION['wordpress_theme']['content'] = $mybb_dom->saveHTML();
+	$_SESSION['wordpress_theme']['content'] = $content;
 
 	$iframe = '<iframe id="mybb_iframe" onload="iframeLoaded()" width="100%" height="1000px" src="'.$bburl.'/inc/plugins/wordpress_theme/get_content.php?token='.$token.'" scrolling="no" seamless="seamless"></iframe>'."\r\n";
 	$iframe .= '<debugstuff>'."\r\n";
