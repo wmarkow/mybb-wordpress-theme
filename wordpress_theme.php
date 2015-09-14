@@ -131,7 +131,7 @@ function wordpress_theme_global_start($page)
 
 	// MyBB html document
 	$mybb_dom = new DOMDocument();
-        $mybb_dom->loadHTML($page_mod);
+        $mybb_dom->loadHTML(mb_convert_encoding($page_mod, 'HTML-ENTITIES', 'UTF-8'));
 	$mybb_dom_xpath = new DOMXPath($mybb_dom);
 
 	// deal with http-equiv="refresh" (move from MyBB page to Wordpress page)
