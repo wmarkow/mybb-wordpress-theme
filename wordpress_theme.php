@@ -79,6 +79,11 @@ function wordpress_theme_global_start($page)
 	$start_time = microtime(true);
 	global $mybb;
 
+	if(strcmp($mybb->user['username'], 'mybbadmin') != 0)
+	{
+		return $page;
+	}
+
 	if($mybb->usergroup['cancp'] == 1 || ($mybb->user['ismoderator'] && $mybb->usergroup['canmodcp'] == 1 && $mybb->usergroup['canmanagereportedcontent'] == 1))
 	{
 		// This user is a moderator, super moderator or administrator
