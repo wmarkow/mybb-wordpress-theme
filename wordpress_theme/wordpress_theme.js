@@ -2,7 +2,8 @@ function iframeLoaded() {
 	var iFrameID = document.getElementById('mybb_iframe');
 	if(iFrameID) {
 		iFrameID.height = "";
-		iFrameID.style.height = iFrameID.contentWindow.document.body.scrollHeight + 'px';
+		var newHeight = parseInt(iFrameID.contentWindow.document.body.scrollHeight) + 179;
+		iFrameID.style.height = newHeight + 'px';
 
 		var hash = window.location.hash;
                 if(hash) {
