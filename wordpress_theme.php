@@ -79,11 +79,7 @@ function wordpress_theme_global_start($page)
 	$start_time = microtime(true);
 	global $mybb;
 
-	if(strcmp($mybb->user['username'], 'mybbadmin') != 0)
-	{
-		return $page;
-	}
-
+	// TODO: this is for tests only
 	if($mybb->usergroup['cancp'] == 1 || ($mybb->user['ismoderator'] && $mybb->usergroup['canmodcp'] == 1 && $mybb->usergroup['canmanagereportedcontent'] == 1))
 	{
 		// This user is a moderator, super moderator or administrator
@@ -93,6 +89,7 @@ function wordpress_theme_global_start($page)
 	{
 		return $page;
 	}
+	// TODO: end of todo
 
 	session_start();
 
@@ -143,6 +140,13 @@ function wordpress_theme_global_start($page)
                 $wp_head_node = $wp_dom->getElementsByTagName('head')->item(0);
                 $wp_head_node->appendChild($import);
         }
+
+	// TODO: this is for tests only
+	$mybb_iframe_nodes = $mybb_dom_xpath->query('//iframe[@id="wp_header"]');
+	foreach($mybb_iframe_nodes as $mybb_iframe_node) {
+		$mybb_iframe_node->parentNode->removeChild($mybb_iframe_node);
+	}
+	// TODO: end of todo
 
 	// save MyBB generated page to local cache file
 	$token = bin2hex(openssl_random_pseudo_bytes(24));
