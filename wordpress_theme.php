@@ -155,6 +155,7 @@ function wordpress_theme_global_start($page)
 	$_SESSION['wordpress_theme']['content'] = $content;
 
 	$iframe = '<iframe id="mybb_iframe" onload="iframeLoaded()" width="100%" height="1000px" src="'.$bburl.'/inc/plugins/wordpress_theme/get_content.php?token='.$token.'" scrolling="no" seamless="seamless"></iframe>'."\r\n";
+	$iframe .= '<script language="javascript" type="text/javascript">setInterval(setIframeSize, 500)</script>'."\r\n";
 	$iframe .= '<debugstuff>'."\r\n";
 
 	// add plugin's execution time if needed

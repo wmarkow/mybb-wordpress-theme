@@ -15,3 +15,15 @@ function iframeLoaded() {
                 }		
 	}
 }
+
+function setIframeSize() {
+	var ffHeight = document.getElementById("mybb_iframe").contentWindow.document.body.scrollHeight;
+	var chromeHeight = document.getElementById("mybb_iframe").contentDocument.documentElement.scrollHeight;
+
+	var height = chromeHeight;
+	if (navigator.userAgent.indexOf('Firefox') != -1) {
+		height = ffHeight;
+	}
+
+	document.getElementById("mybb_iframe").style.height = Math.max(ffHeight, chromeHeight) + 'px';
+}
