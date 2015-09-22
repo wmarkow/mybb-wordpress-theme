@@ -141,6 +141,12 @@ function wordpress_theme_global_start($page)
                 $wp_head_node->appendChild($import);
         }
 
+	// deal with href's referenced to javasripts (need to be opened in the iframe)
+	$mybb_javascript_hrefs = $mybb_dom_xpath->query('/html/body//a[starts-with(@href, "javascript")]');
+	foreach($mybb_javascript_hrefs as $mybb_javascript_href) {
+		$mybb_javascript_href->setAttribute('target','_self');
+	}
+
 	// TODO: this is for tests only
 	$mybb_iframe_nodes = $mybb_dom_xpath->query('//iframe[@id="wp_header"]');
 	foreach($mybb_iframe_nodes as $mybb_iframe_node) {
