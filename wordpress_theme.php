@@ -61,6 +61,18 @@ function wordpress_theme_activate() {
         'gid'            => intval($gid),
 	);
 	$db->insert_query('settings', $wordpress_theme_setting);
+
+	$wordpress_theme_setting = array(
+        'sid'            => 'NULL',
+        'name'        => 'wordpress_theme_cache_time',
+        'title'            => 'Wordpress theme cache time in minutes.',
+        'description'    => 'Define the wordpress theme cache time (in minutes). When the cache time expires the wordpress theme will be refetched.',
+        'optionscode'    => 'numeric',
+        'value'        => '10',
+        'disporder'        => 3,
+        'gid'            => intval($gid),
+        );
+        $db->insert_query('settings', $wordpress_theme_setting);
 	rebuild_settings();
 }
 
@@ -101,11 +113,7 @@ function wordpress_theme_global_start($page)
                 return $page;
         }
 
-	if(!isset($_SESSION['wordpress_theme']['wordpress_theme']))
-	{
-		$url=$mybb->settings['wordpress_theme_url'];
-		$_SESSION['wordpress_theme']['wordpress_theme'] = file_get_contents($url);
-	}
+	wordpress_theme_refresh_theme_if_needed();
 
 	$wp_page = $_SESSION['wordpress_theme']['wordpress_theme'];
 
@@ -176,3 +184,56 @@ function wordpress_theme_global_start($page)
 
 	return $output;
 }
+
+function wordpress_theme_refresh_theme_if_needed()
+{
+	global $mybb;
+
+	if(!isset($_SESSION['wordpress_theme']['wordpress_theme']))
+	{
+		wordpress_theme_refresh_theme();
+		return;
+	}
+
+	if(!isset($_SESSION['wordpress_theme']['wordpress_theme_refresh_time']))
+	{
+		wordpress_theme_refresh_theme();
+		return;
+	}
+
+	$refresh_time = $_SESSION['wordpress_theme']['wordpress_theme_refresh_time'];
+	$now_in_millis = (int)(1000 * microtime(true));
+	$cache_expire_in_minutes = $mybb->settings['wordpress_theme_cache_time'];
+	if(!isset($cache_expire_in_minutes))
+	{
+		$cache_expire_in_minutes = 10;
+	}
+
+	if($refresh_time > $now_in_millis)
+	{
+		wordpress_theme_refresh_theme();
+		return;
+	}
+
+	if((($now_in_millis - $refresh_time)/1000/60) > $cache_expire_in_minutes)
+	{
+		wordpress_theme_refresh_theme();
+		return;
+	}
+}
+
+function wordpress_theme_refresh_theme()
+{
+	global $mybb;
+	if(!isset($mybb->settings['wordpress_theme_url']))
+	{
+		return;
+	}
+
+	$url=$mybb->settings['wordpress_theme_url'];
+	$now_in_millis = (int)(1000 * microtime(true));
+
+        $_SESSION['wordpress_theme']['wordpress_theme'] = file_get_contents($url);
+	$_SESSION['wordpress_theme']['wordpress_theme_refresh_time'] = $now_in_millis;
+}
+
