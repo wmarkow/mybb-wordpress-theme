@@ -339,8 +339,8 @@ var Thread = {
 	quickReplyDone: function(request, status)
 	{
 		this.quick_replying = 0;
-
-		var json = $.parseJSON(request.responseText);
+		var fixed = request.responseText.replace("window.location", "window.parent.location");
+		var json = $.parseJSON(fixed);
 		if(typeof json == 'object')
 		{
 			if(json.hasOwnProperty("errors"))

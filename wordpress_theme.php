@@ -133,6 +133,8 @@ function wordpress_theme_global_start($page)
 	$page_mod = str_replace('<head>','<head>'."\r\n".'<base href="'.$bburl.'/" target="_parent" />'."\r\n", $page);
 	// deal with quick-login url (very nasty hack below)
 	$page_mod = str_replace('$("#quick_login input[name=\'url\']").val($(location).attr(\'href\'))', '$("#quick_login input[name=\'url\']").val('.$bburl.')', $page_mod);
+	// deal with quick_reply_form response
+	$page_mod = str_replace('jscripts/thread.js', 'inc/plugins/wordpress_theme/thread.js', $page_mod);
 
 	// MyBB html document
 	$mybb_dom = new DOMDocument();
