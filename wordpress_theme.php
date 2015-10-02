@@ -116,6 +116,7 @@ function wordpress_theme_global_start($page)
 	// Wordpress html document
         $wp_dom = new DOMDocument();
         $wp_dom->loadHTML($wp_page_mod);
+	$wp_dom_xpath = new DOMXPath($wp_dom);
 
 	// set base to "_parent" in MyBB generated page
 	$page_mod = str_replace('<head>','<head>'."\r\n".'<base href="'.$bburl.'/" target="_parent" />'."\r\n", $page);
@@ -143,6 +144,20 @@ function wordpress_theme_global_start($page)
 	$mybb_javascript_hrefs = $mybb_dom_xpath->query('/html/body//a[starts-with(@href, "javascript")]');
 	foreach($mybb_javascript_hrefs as $mybb_javascript_href) {
 		$mybb_javascript_href->setAttribute('target','_self');
+	}
+
+	// copy MyBB page title to Wordpress template
+	$mybb_title_nodes = $mybb_dom_xpath->query('/html/head/title');
+	if($mybb_title_nodes->length == 1)
+	{
+		$mybb_title_node = $mybb_title_nodes->item(0);
+		//return $mybb_title_node->textContent;
+		$wp_title_nodes = $wp_dom_xpath->query('/html/head/title');
+		if($wp_title_nodes->length == 1)
+		{
+			$wp_title_node = $wp_title_nodes->item(0);
+			$wp_title_node->nodeValue = $mybb_title_node->textContent;
+		}
 	}
 
 	// save MyBB generated page to local cache file
