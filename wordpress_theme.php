@@ -16,7 +16,7 @@ function wordpress_theme_info()
         "website"        => "https://github.com/wmarkow/mybb-wordpress-theme",
         "author"        => "Witold Markowski",
         "authorsite"    => "https://github.com/wmarkow/mybb-wordpress-theme",
-        "version"        => "1.0",
+        "version"        => "0.1",
         "guid"             => "",
 	"codename"      => "wordpress_theme",
         "compatibility" => "1805,1806"
@@ -234,4 +234,3 @@ function wordpress_theme_refresh_theme()
         $_SESSION['wordpress_theme']['wordpress_theme'] = file_get_contents($url);
 	$_SESSION['wordpress_theme']['wordpress_theme_refresh_time'] = $now_in_millis;
 }
-
