@@ -46,7 +46,10 @@ function setModalPosition() {
 		var pageYOffset = window.pageYOffset;
 		var mybbIframeOffsetTop = mybbIframe.offsetParent.offsetTop;
 		var mybbIframeHeight = mybbIframe.contentWindow.document.body.scrollHeight;
-		var mozInnerScreenY = window.mozInnerScreenY;
+		var mozInnerScreenY = 0;
+		if (navigator.userAgent.indexOf('Firefox') != -1) {
+			mozInnerScreenY = window.mozInnerScreenY;
+		}
 		var screenY = window.screenY;
 
 		var currentFixedTop = pageYOffset;
