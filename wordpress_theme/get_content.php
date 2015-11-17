@@ -15,7 +15,6 @@
 		exit;
 	}
 
-
 	if(!isset($_SESSION['wordpress_theme']['token'])) {
 		echo 'Token not found in session. Refresh your web browser.';
 		exit;
@@ -26,7 +25,9 @@
 		echo 'Token mismatch. Refresh your web browser.';
 	}
 
+	ob_start('ob_gzhandler');
 	echo $_SESSION['wordpress_theme']['content'];
+	ob_end_flush();
 
 	unset($_SESSION['wordpress_theme']['token']);
 	unset($_SESSION['wordpress_theme']['content']);
