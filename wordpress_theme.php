@@ -146,6 +146,12 @@ function wordpress_theme_global_start($page)
 		$mybb_javascript_href->setAttribute('target','_self');
 	}
 
+	// hide vertical scroll bar
+	$mybb_bodies = $mybb_dom_xpath->query('/html/body');
+	foreach($mybb_bodies as $mybb_body) {
+		$mybb_body->setAttribute('style','overflow-y: hidden;');
+	}
+
 	// copy MyBB page title to Wordpress template
 	$mybb_title_nodes = $mybb_dom_xpath->query('/html/head/title');
 	if($mybb_title_nodes->length == 1)
