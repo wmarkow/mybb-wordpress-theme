@@ -166,7 +166,7 @@ function wordpress_theme_global_start($page)
 	$_SESSION['wordpress_theme']['token'] = $token;
 	$_SESSION['wordpress_theme']['content'] = $content;
 
-	$iframe = '<iframe id="mybb_iframe" onload="iframeLoaded()" width="100%" height="1000px" src="'.$bburl.'/inc/plugins/wordpress_theme/get_content.php?token='.$token.'" scrolling="no" seamless="seamless"></iframe>'."\r\n";
+	$iframe = '<iframe id="mybb_iframe" onload="iframeLoaded()" width="100%" height="1000px" src="'.$bburl.'/inc/plugins/wordpress_theme/get_content.php?token='.$token.'" scrolling="auto" seamless="seamless"></iframe>'."\r\n";
 	$iframe .= '<script language="javascript" type="text/javascript">setInterval(intervalChecks, 500)</script>'."\r\n";
 	$iframe .= '<debugstuff>'."\r\n";
 
