@@ -115,7 +115,10 @@ function wordpress_theme_global_start($page)
 
 	// Wordpress html document
         $wp_dom = new DOMDocument();
+	$previous_value = libxml_use_internal_errors(TRUE);
         $wp_dom->loadHTML($wp_page_mod);
+	libxml_clear_errors();
+	libxml_use_internal_errors($previous_value);
 	$wp_dom_xpath = new DOMXPath($wp_dom);
 
 	// set base to "_parent" in MyBB generated page
@@ -127,7 +130,10 @@ function wordpress_theme_global_start($page)
 
 	// MyBB html document
 	$mybb_dom = new DOMDocument();
+	$previous_value = libxml_use_internal_errors(TRUE);
         $mybb_dom->loadHTML(mb_convert_encoding($page_mod, 'HTML-ENTITIES', 'UTF-8'));
+	libxml_clear_errors();
+	libxml_use_internal_errors($previous_value);
 	$mybb_dom_xpath = new DOMXPath($mybb_dom);
 
 	// deal with http-equiv="refresh" (move from MyBB page to Wordpress page)
